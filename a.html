@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Explorer | Beena Gorasiya</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/onnxjs/dist/onnx.min.js"></script>
+    <style>
+        :root {
+            --primary: #8a6d62;
+            --secondary: #d4c1b3;
+            --accent: #c69c6d;
+            --dark: #4a3f35;
+            --light: #f9f5f0;
+            --text: #333333;
+            --transition: all 0.4s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: rgba(249, 245, 240, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(74, 63, 53, 0.1);
+            padding: 15px 0;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 28px;
+            color: var(--accent);
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            color: var(--dark);
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 16px;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--accent);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: var(--transition);
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(74, 63, 53, 0.5), rgba(74, 63, 53, 0.5)), url('https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding-top: 80px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 2px solid var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+        
+        .btn:hover {
+            background-color: transparent;
+            color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            margin-left: 15px;
+        }
+        
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--dark);
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .service-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+        
+        .service-content {
+            padding: 25px;
+        }
+        
+        .service-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .service-content p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        /* About Section */
+        .about {
+            background-color: var(--secondary);
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .about-text h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+        }
+        
+        .about-img {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .about-img img {
+            width: 100%;
+            display: block;
+        }
+        
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+        
+        .contact-info {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+        }
+        
+        .contact-info h3 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+        
+        .contact-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .contact-detail i {
+            font-size: 20px;
+            color: var(--accent);
+        }
+        
+        .contact-form {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(198, 156, 109, 0.2);
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Inquiry Section */
+        .inquiry {
+            background-color: var(--light);
+        }
+        
+        .inquiry-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        /* Sketch Tool Section */
+        #sketch {
+            background-color: #f9f5f0;
+            padding: 80px 0;
+        }
+        
+        .sketch-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .sketch-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .sketch-title h2 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 3s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 5px rgba(198, 156, 109, 0.5); }
+            to { text-shadow: 0 0 15px rgba(138, 109, 98, 0.8); }
+        }
+        
+        .sketch-controls {
+            background: rgba(249, 245, 240, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 1000px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .sketch-controls-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .sketch-controls label {
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .sketch-controls select, .sketch-controls input[type="file"], 
+        .sketch-controls button {
+            padding: 10px 18px;
+            font-size: 1rem;
+            border-radius: 30px;
+            border: none;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .sketch-controls select {
+            background: white;
+            color: var(--dark);
+            border: 1px solid #ddd;
+        }
+        
+        .sketch-controls button:hover, .sketch-controls select:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .sketch-sliders {
+            background: rgba(249, 245, 240, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 1000px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .slider-group label {
+            font-weight: 500;
+            color: var(--dark);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .slider-group input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #ddd;
+            outline: none;
+        }
+        
+        .sketch-previewContainer {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .sketch-canvas, .sketch-originalImage {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+            border: 1px solid #eae0d5;
+            box-shadow: 0 0 15px rgba(0,0,0,0.08);
+            background: white;
+        }
+        
+        .sketch-video {
+            display: none;
+        }
+        
+        .sketch-brush {
+            position: absolute;
+            width: 80px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .preview-title {
+            text-align: center;
+            font-weight: 600;
+            color: var(--dark);
+            margin: 10px 0;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bbb;
+            font-size: 14px;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate {
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+        
+        .delay-4 {
+            animation-delay: 0.4s;
+        }
+        
+        .delay-5 {
+            animation-delay: 0.5s;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .about-content,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-img {
+                order: -1;
+            }
+            
+            .sketch-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .sketch-controls-group {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--light);
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav ul li {
+                padding: 10px 20px;
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .sketch-sliders {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                display: block;
+                margin: 10px auto;
+                width: 80%;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+            }
+            
+            .inquiry-container {
+                padding: 30px 20px;
+            }
+            
+            .sketch-container {
+                padding: 20px;
+            }
+            
+            .sketch-previewContainer {
+                gap: 20px;
+            }
+            
+            .sketch-controls-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .sketch-controls button, .sketch-controls select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-palette"></i>
+                <h1>Creative <span>Explorer</span></h1>
+            </div>
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#sketch">Make Sketch</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#inquiry">Inquiry</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Unleash Your Creative Spirit</h1>
+                <p>Discover the art of transformation with Beena Gorasiya's creative services</p>
+                <div class="hero-btns">
+                    <a href="#services" class="btn">Explore Services</a>
+                    <a href="#sketch" class="btn btn-outline">Try Sketch Tool</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Creative Services</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card animate">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1595425970377-4d5e4455a0c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Candle Making">
+                    </div>
+                    <div class="service-content">
+                        <h3>Candle Making</h3>
+                        <p>Handcrafted candles with unique scents and designs that create the perfect ambiance for any space.</p>
+                        <a href="#inquiry" class="btn">Book Now</a>
+                    </div>
+                </div>
+                
+                <div class="service-card animate delay-1">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1622737133809-d95047b9e673?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Resin Art">
+                    </div>
+                    <div class="service-content">
+                        <h3>Resin Art</h3>
+                        <p>Stunning resin creations including jewelry, coasters, and decorative pieces with vibrant colors.</p>
+                        <a href="#inquiry" class="btn">Book Now</a>
+                    </div>
+                </div>
+                
+                <div class="service-card animate delay-2">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Makeup Artistry">
+                    </div>
+                    <div class="service-content">
+                        <h3>Makeup Artistry</h3>
+                        <p>Professional makeup services for special occasions, photoshoots, and personal transformation.</p>
+                        <a href="#inquiry" class="btn">Book Now</a>
+                    </div>
+                </div>
+                
+                <div class="service-card animate delay-3">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1572997103-81d35e7ea0d1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Tattoo Art">
+                    </div>
+                    <div class="service-content">
+                        <h3>Tattoo Art</h3>
+                        <p>Custom tattoo designs created with precision and artistic vision to express your unique story.</p>
+                        <a href="#inquiry" class="btn">Book Now</a>
+                    </div>
+                </div>
+                
+                <div class="service-card animate delay-4">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1547891654-e66ed7ebb968?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Sketch Art">
+                    </div>
+                    <div class="service-content">
+                        <h3>Sketch Art</h3>
+                        <p>Detailed pencil and charcoal sketches that capture the essence of people, places, and moments.</p>
+                        <a href="#inquiry" class="btn">Book Now</a>
+                    </div>
+                </div>
+                
+                <div class="service-card animate delay-5">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Nail Art">
+                    </div>
+                    <div class="service-content">
+                        <h3>Nail Art</h3>
+                        <p>Creative and intricate nail designs that transform your hands into works of wearable art.</p>
+                        <a href="#inquiry" class="btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Creative Explorer</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Beena Gorasiya - The Creative Visionary</h2>
+                    <p>With over a decade of experience in various art forms, Beena Gorasiya has mastered the art of transforming ordinary materials into extraordinary creations. Her journey began with a simple sketchbook and has since expanded into multiple artistic disciplines.</p>
+                    <p>At Creative Explorer, we believe that art is not just a product, but a journey of self-expression and discovery. Each piece we create is infused with passion, attention to detail, and a commitment to excellence.</p>
+                    <p>Our mission is to help you explore your creative side, whether through our services or by teaching you the skills to create your own masterpieces.</p>
+                    <a href="#contact" class="btn">Connect With Us</a>
+                </div>
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Beena Gorasiya">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sketch Tool Section -->
+    <section id="sketch" class="sketch-section">
+        <div class="container sketch-container">
+            <div class="sketch-title">
+                <h2>🎨 Make Sketch - Artistic AI Tool</h2>
+                <p>Transform your photos into beautiful sketches with our AI-powered tool</p>
+            </div>
+            
+            <div class="sketch-controls">
+                <div class="sketch-controls-group">
+                    <label for="sketch-upload">Upload Image:</label>
+                    <input type="file" id="sketch-upload" accept="image/*" title="Upload an image file">
+                </div>
+                
+                <div class="sketch-controls-group">
+                    <button id="sketch-startWebcam">📷 Use Webcam</button>
+                </div>
+                
+                <div class="sketch-controls-group">
+                    <label for="sketch-filter">Artistic Filter:</label>
+                    <select id="sketch-filter">
+                        <option value="sketch">Sketch</option>
+                        <option value="pencil">Pencil</option>
+                        <option value="cartoon">Cartoon</option>
+                        <option value="crayon">Crayon (AI-style)</option>
+                        <option value="oil">Oil Paint (AI-style)</option>
+                        <option value="fast-style">Fast Style Transfer</option>
+                        <option value="cartoongan">CartoonGAN</option>
+                        <option value="deepsketch">DeepSketch</option>
+                    </select>
+                </div>
+                
+                <div class="sketch-controls-group">
+                    <label><input type="checkbox" id="sketch-monochromeToggle"> 🖤 Monochrome Mode</label>
+                </div>
+                
+                <div class="sketch-controls-group">
+                    <button onclick="captureFrame()">📸 Snapshot & Download</button>
+                </div>
+            </div>
+            
+            <div class="sketch-sliders">
+                <div class="slider-group">
+                    <label>Brightness: <span id="brightness-value">0</span></label>
+                    <input type="range" id="sketch-brightness" min="-100" max="100" value="0" title="Adjust brightness">
+                </div>
+                
+                <div class="slider-group">
+                    <label>Contrast: <span id="contrast-value">0</span></label>
+                    <input type="range" id="sketch-contrast" min="-100" max="100" value="0" title="Adjust contrast">
+                </div>
+                
+                <div class="slider-group">
+                    <label>Detail: <span id="detail-value">1.0</span></label>
+                    <input type="range" id="sketch-detail" min="0" max="5" step="0.1" value="1" title="Adjust detail level">
+                </div>
+            </div>
+            
+            <div class="sketch-previewContainer">
+                <div class="preview-box">
+                    <div class="preview-title">Original Image</div>
+                    <img id="sketch-originalImage" src="" alt="Original Preview" class="sketch-originalImage">
+                </div>
+                
+                <div class="preview-box">
+                    <div class="preview-title">Artistic Result</div>
+                    <canvas id="sketch-canvas" class="sketch-canvas"></canvas>
+                </div>
+            </div>
+            
+            <video id="sketch-video" autoplay hidden></video>
+            <img id="sketch-brush" src="https://i.imgur.com/IbCgVtw.png" alt="Brush icon" class="sketch-brush" />
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Us</h2>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Get In Touch</h3>
+                    <div class="contact-detail">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>gorasiyabeena@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>09512884355</p>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Creative Studio, Artistic Street, Art District</p>
+                        </div>
+                    </div>
+                    <div class="contact-detail">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Working Hours</h4>
+                            <p>Monday - Saturday: 10:00 AM - 7:00 PM</p>
+                            <p>Sunday: By Appointment Only</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Send a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inquiry Section -->
+    <section id="inquiry" class="inquiry">
+        <div class="container">
+            <div class="section-title">
+                <h2>Service Inquiry</h2>
+                <p>Request more information or book an appointment</p>
+            </div>
+            <div class="inquiry-container">
+                <form id="inquiryForm">
+                    <div class="form-group">
+                        <label for="inquiry-name">Full Name</label>
+                        <input type="text" id="inquiry-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inquiry-email">Email Address</label>
+                        <input type="email" id="inquiry-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inquiry-phone">Phone Number</label>
+                        <input type="tel" id="inquiry-phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Service Interested In</label>
+                        <select id="service" required>
+                            <option value="">Select a Service</option>
+                            <option value="candle">Candle Making</option>
+                            <option value="resin">Resin Art</option>
+                            <option value="makeup">Makeup Artistry</option>
+                            <option value="tattoo">Tattoo Art</option>
+                            <option value="sketch">Sketch Art</option>
+                            <option value="nails">Nail Art</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Preferred Date (if applicable)</label>
+                        <input type="date" id="date">
+                    </div>
+                    <div class="form-group">
+                        <label for="inquiry-message">Additional Details</label>
+                        <textarea id="inquiry-message" placeholder="Tell us more about your project or requirements..."></textarea>
+                    </div>
+                    <button type="submit" class="btn">Submit Inquiry</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h4>Creative Explorer</h4>
+                    <p>Bringing artistic visions to life through multiple creative disciplines and personalized service.</p>
+                    <div class="social-links">
+                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="Pinterest"><i class="fab fa-pinterest"></i></a>
+                        <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#sketch">Make Sketch</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#inquiry">Inquiry</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Our Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services">Candle Making</a></li>
+                        <li><a href="#services">Resin Art</a></li>
+                        <li><a href="#services">Makeup Artistry</a></li>
+                        <li><a href="#services">Tattoo Art</a></li>
+                        <li><a href="#services">Sketch Art</a></li>
+                        <li><a href="#services">Nail Art</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> gorasiyabeena@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> 09512884355</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Creative Studio, Artistic Street</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Creative Explorer by Beena Gorasiya. Designed by Meet Khetani. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navigation Toggle
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const navMenu = document.querySelector('nav ul');
+        
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+        
+        // Form Submission Handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+        
+        document.getElementById('inquiryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your inquiry! We will contact you shortly to discuss your request.');
+            this.reset();
+        });
+        
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.animate').forEach(element => {
+            observer.observe(element);
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Sketch Tool Functionality
+        const canvas = document.getElementById('sketch-canvas');
+        const ctx = canvas.getContext('2d');
+        const video = document.getElementById('sketch-video');
+        const brush = document.getElementById('sketch-brush');
+        const originalImage = document.getElementById('sketch-originalImage');
+        
+        const filterSelect = document.getElementById('sketch-filter');
+        const brightnessSlider = document.getElementById('sketch-brightness');
+        const contrastSlider = document.getElementById('sketch-contrast');
+        const detailSlider = document.getElementById('sketch-detail');
+        const monochromeToggle = document.getElementById('sketch-monochromeToggle');
+        const uploadInput = document.getElementById('sketch-upload');
+        const startWebcamBtn = document.getElementById('sketch-startWebcam');
+        
+        // Update slider values display
+        document.getElementById('brightness-value').textContent = brightnessSlider.value;
+        document.getElementById('contrast-value').textContent = contrastSlider.value;
+        document.getElementById('detail-value').textContent = detailSlider.value;
+        
+        brightnessSlider.addEventListener('input', () => {
+            document.getElementById('brightness-value').textContent = brightnessSlider.value;
+            updateCanvasWithSliders();
+        });
+        
+        contrastSlider.addEventListener('input', () => {
+            document.getElementById('contrast-value').textContent = contrastSlider.value;
+            updateCanvasWithSliders();
+        });
+        
+        detailSlider.addEventListener('input', () => {
+            document.getElementById('detail-value').textContent = detailSlider.value;
+            updateCanvasWithSliders();
+        });
+        
+        let webcamActive = false;
+        let onnxSession;
+        
+        const onnxModels = {
+            "fast-style": "https://example.com/models/fast-style-transfer.onnx",
+            "cartoongan": "https://example.com/models/cartoonGAN.onnx",
+            "deepsketch": "https://example.com/models/deepsketch.onnx"
+        };
+        
+        async function loadONNXModel(modelKey) {
+            if (!onnxModels[modelKey]) return;
+            const session = new onnx.InferenceSession();
+            await session.loadModel(onnxModels[modelKey]);
+            onnxSession = session;
+        }
+        
+        async function applyONNXFilter(imageData, modelKey) {
+            if (!onnxSession || !onnxModels[modelKey]) {
+                await loadONNXModel(modelKey);
+            }
+            return imageData;
+        }
+        
+        function applyFilter(data, filterType, brightness = 0, contrast = 0, detail = 1, mono = false) {
+            const d = data.data;
+            for (let i = 0; i < d.length; i += 4) {
+                let r = d[i], g = d[i+1], b = d[i+2];
+                let avg = (r + g + b) / 3 + Number(brightness);
+                avg = ((avg - 128) * (1 + contrast / 100)) + 128;
+                avg *= Number(detail);
+                avg = Math.min(255, Math.max(0, avg));
+        
+                if (mono) {
+                    d[i] = d[i+1] = d[i+2] = avg;
+                } else {
+                    if (filterType === "sketch") d[i] = d[i+1] = d[i+2] = avg + 30 * Math.sin(i * 0.001);
+                    else if (filterType === "pencil") d[i] = d[i+1] = d[i+2] = avg > 128 ? 255 : 0;
+                    else if (filterType === "cartoon") {
+                        let q = Math.floor(avg / 50) * 50;
+                        d[i] = d[i+1] = d[i+2] = q;
+                    } else if (filterType === "crayon") {
+                        d[i] = r + 30; d[i+1] = g + 10; d[i+2] = b + 20;
+                    } else if (filterType === "oil") {
+                        d[i] = r + 40 * Math.sin(i * 0.0015);
+                        d[i+1] = g + 20 * Math.sin(i * 0.0012);
+                        d[i+2] = b + 10 * Math.cos(i * 0.0009);
+                    }
+                }
+                d[i+3] = 255;
+            }
+            return data;
+        }
+        
+        function updateCanvasWithSliders() {
+            if (webcamActive) return;
+            const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const filtered = applyFilter(data, filterSelect.value, brightnessSlider.value, contrastSlider.value, detailSlider.value, monochromeToggle.checked);
+            ctx.putImageData(filtered, 0, 0);
+        }
+        
+        filterSelect.onchange = updateCanvasWithSliders;
+        monochromeToggle.onchange = updateCanvasWithSliders;
+        
+        uploadInput.addEventListener('change', async e => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const img = new Image();
+            img.onload = async () => {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                originalImage.src = img.src;
+                
+                let data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const selected = filterSelect.value;
+                if (["fast-style", "cartoongan", "deepsketch"].includes(selected)) {
+                    data = await applyONNXFilter(data, selected);
+                } else {
+                    data = applyFilter(data, selected, brightnessSlider.value, contrastSlider.value, detailSlider.value, monochromeToggle.checked);
+                }
+                animateSketch(data);
+            };
+            img.src = URL.createObjectURL(file);
+        });
+        
+        startWebcamBtn.onclick = async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                webcamActive = true;
+                video.hidden = false;
+                
+                video.onloadedmetadata = () => {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                };
+                
+                const processWebcam = async () => {
+                    if (!webcamActive) return;
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    let data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const selected = filterSelect.value;
+                    if (["fast-style", "cartoongan", "deepsketch"].includes(selected)) {
+                        data = await applyONNXFilter(data, selected);
+                    } else {
+                        data = applyFilter(data, selected, brightnessSlider.value, contrastSlider.value, detailSlider.value, monochromeToggle.checked);
+                    }
+                    ctx.putImageData(data, 0, 0);
+                    requestAnimationFrame(processWebcam);
+                };
+                
+                processWebcam();
+            } catch (err) {
+                alert('Unable to access webcam: ' + err.message);
+            }
+        };
+        
+        function captureFrame() {
+            webcamActive = false;
+            const frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const filtered = applyFilter(frame, filterSelect.value, brightnessSlider.value, contrastSlider.value, detailSlider.value, monochromeToggle.checked);
+            ctx.putImageData(filtered, 0, 0);
+            showBrush();
+            
+            const link = document.createElement('a');
+            link.download = 'creative_sketch_by_beena.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        function animateSketch(filteredData) {
+            let imageData = ctx.createImageData(canvas.width, canvas.height);
+            let i = 0;
+            function drawChunk() {
+                let chunk = 4000;
+                for (let j = 0; j < chunk && i < filteredData.data.length; j += 4, i += 4) {
+                    imageData.data[i] = filteredData.data[i];
+                    imageData.data[i + 1] = filteredData.data[i + 1];
+                    imageData.data[i + 2] = filteredData.data[i + 2];
+                    imageData.data[i + 3] = 255;
+                }
+                ctx.putImageData(imageData, 0, 0);
+                if (i < filteredData.data.length) requestAnimationFrame(drawChunk);
+                else showBrush();
+            }
+            drawChunk();
+        }
+        
+        function showBrush() {
+            brush.style.top = (canvas.offsetTop + canvas.height / 2.5) + 'px';
+            brush.style.left = (canvas.offsetLeft + canvas.width / 2.5) + 'px';
+            brush.style.opacity = 0;
+            anime({
+                targets: brush,
+                opacity: [0, 1, 0],
+                scale: [0.5, 1.2, 0.5],
+                rotate: '1turn',
+                duration: 2000,
+                easing: 'easeInOutQuad'
+            });
+        }
+        
+        // Demo image on page load
+        window.onload = function() {
+            const demoImg = new Image();
+            demoImg.onload = function() {
+                canvas.width = demoImg.width;
+                canvas.height = demoImg.height;
+                ctx.drawImage(demoImg, 0, 0);
+                originalImage.src = demoImg.src;
+                
+                const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const filtered = applyFilter(data, "sketch", 0, 0, 1, false);
+                animateSketch(filtered);
+            };
+            demoImg.src = "https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80";
+        };
+    </script>
+</body>
+</html>
